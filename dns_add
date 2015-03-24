@@ -1,0 +1,64 @@
+#!/usr/bin/ansible-playbook 
+### 
+### DNS  entry
+### 
+### 
+### 1)Adding host record by using Infoblox REST api . 
+###
+###  2)Please download  infoblox module from  https://github.com/tapanswain/ansible-modules-core/blob/patch-1/cloud/infoblox 
+###
+### 
+### ---------------------------------------------------------------------
+### 
+### Parameters:
+###
+###  [R] fqdn:       Fully qualified DNS domain name for the Host record
+###  [R] gridmaster: Hostname of the Infoblox gridmaster to connect
+###  [R] infoblox_username:   Infoblox username
+###  [R] infoblox_password:   Infoblox password
+###  [R] infoblox_version:   Infoblox password
+###  [R] infoblox_view :  Infoblox view  
+###  [R] infoblox_network_view :  infoblox_network_view
+###  [R] infoblox_verify_ssl :    "False" -- it should be false .  
+###  [R] state  :  add -- to add host record to infoblox.  
+###  [R] address: Ip adress coressponding to fqdn 
+### 
+###      O = Optional
+###      R = Required
+###      * = Either ipaddress or network are required, but not both
+### 
+### ---------------------------------------------------------------------
+### 
+---
+- hosts: "{{ hosts }}"
+  user: root
+  serial: 1
+  gather_facts: False
+  vars_prompt:
+    - name: "infoblox_username"
+      prompt: "Infoblox Username"
+      private: no
+    - name: "infoblox_password"
+      prompt: "Infoblox Password"
+      private: yes
+  tasks:
+    # --------------------------------------------------------------------
+    # 1. Querying the hostrecords from Infoblox REST api.
+    # --------------------------------------------------------------------
+    - name: "Querying the hostrecords from Infoblox"
+      local_action: >
+        infoblox
+        fqdn="{{ inventory_hostname }}"
+        address="{{ ipaddress }}"
+        iba_ipaddr="{{ infoblox_gridmaster }}"
+        iba_user="{{ infoblox_username }}"
+        iba_password="{{ infoblox_password }}"
+        iba_wapi_version="{{ infoblox_version }}"
+        iba_dns_view="{{ infoblox_view }}"
+        iba_network_view="{{ infoblox_network_view }}"
+        iba_verify_ssl="False"
+        state="add"
+      ignore_errors: yes  
+
+
+
