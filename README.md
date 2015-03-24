@@ -1,12 +1,13 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+ playbook for daily  infoblox acvity  
 
 Requirements
+
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Please download  infoblox module from  https://github.com/tapanswain/ansible-modules-core/blob/patch-1/cloud/infoblox
 
 Role Variables
 --------------
@@ -30,7 +31,7 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+GPL
 
 Author Information
 ------------------
